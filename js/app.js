@@ -11,8 +11,10 @@ let score1 =0
 let RandomNumber = "";
 let RandomNumberAI = "";
 
+///PROCESS
+
 Dicebutton.addEventListener('click', () => {
-   DrawText.innerText = "";
+  DrawText.innerText = "";
   RandomDiceNumber();
   NumberToImage();
   CheckWinner();
