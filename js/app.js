@@ -5,20 +5,25 @@ const Scoreboard2 = document.getElementById('Scoreboard2');
 const Player1Dice = document.getElementById('Player1Dice');
 const AIDice = document.getElementById('AIDice');
 const DrawText = document.getElementById('DrawNoPoint');
-let score2=0;
-let score1 =0
+
+let scoreAI= 0;
+let scorePlayer = 0;
 
 let RandomNumber = "";
 let RandomNumberAI = "";
 
 ///PROCESS
 
+loadGame();
+updatescore();
+
 Dicebutton.addEventListener('click', () => {
   DrawText.innerText = "";
   RandomDiceNumber();
   NumberToImage();
   CheckWinner();
-
+  updatescore();
+  saveasCookie();
 })
 
 /// FUNCTIONS
@@ -73,30 +78,52 @@ function NumberToImage() {
     AIDice.src = "img/dice6.png";
   }
 
-
-
-
-
 }
 
 function CheckWinner() {
   if (RandomNumberAI > RandomNumber) {
-    score2++;
-    Scoreboard2.innerText = score2;
+    scoreAI++;
   }
 else if (RandomNumberAI < RandomNumber) {
 
-  score1++;
-  Scoreboard1.innerText = score1;
+  scorePlayer++;
   }
 else if (RandomNumberAI == RandomNumber) {
 
   DrawText.innerText = "DRAW NO POINT";
 
   }
-
-
-
 }
 
+ function updatescore() {
+    Scoreboard2.innerText = scoreAI;
+    Scoreboard1.innerText = scorePlayer;
 
+ }
+
+ // COOIKES
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return 0;
+}
+
+function loadGame (){
+  scorePlayer= getCookie("scorePlayer");
+  scoreAI= getCookie("scoreAI");
+}
+
+ function saveasCookie() {
+   document.cookie = "scoreAI=" + scoreAI + ";expires=Thu, 18 Dec 2025 12:00:00UTC";
+   document.cookie = "scorePlayer=" + scorePlayer + ";expires=Thu, 18 Dec 2025 12:00:00UTC";
+ }
